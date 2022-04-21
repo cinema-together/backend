@@ -1,0 +1,38 @@
+services:
+  app:
+    build:
+      target: development_build
+      context: .
+      args:
+        APP_ENV: development
+    env_file: ./config/.env
+    depends_on:
+      - redis
+    command: python main.py
+
+  centrifugo:
+    image: centrifugo/centrifugo:v3.2
+    env_file: ./config/.env
+    volumes:
+      - ./docker/centrifugo:/centrifugo
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
+    command: centrifugo -c config.json
+
+  redis:
+    image: redis:7.0.0-bullseye
+    env_file: ./config/.env
+    volumes:
+      - redis-data:/data
+
+
+volumes:
+  redis-data:
+
+
+networks:
+  default:
+    external:
+      name: cinema-together-net

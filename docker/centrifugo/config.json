@@ -1,0 +1,11 @@
+{
+  "admin": true,
+  "prometheus": true,
+  "anonymous": true,
+  "publish": true,
+  "subscribe_to_publish": true,
+  "presence": true,
+  "debug":true,
+  "client_anonymous":true,
+  "join_leave": true
+}
