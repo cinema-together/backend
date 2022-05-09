@@ -27,10 +27,44 @@ services:
     volumes:
       - redis-data:/data
 
+  auth_service:
+    container_name: auth
+    build:
+      context: ./auth/.
+      target: prod
+    image: auth_service_image
+    restart: always
+    env_file:
+      - ./auth/.env
+    depends_on:
+      - redis_auth
+      - auth_db
+    ports:
+      - "5001:5000"
+
+  auth_db:
+    image: postgres:12.4
+    restart: always
+    env_file:
+      - ./auth/.env
+    volumes:
+      - auth_db_data:/var/lib/postgresql/data/
+    ports:
+      - "5439:5432"
+
+  redis_auth:
+    image: redis
+    command:
+      - redis-server
+    env_file:
+      - ./auth/.env
+    ports:
+      - "6380:6379"
+
 
 volumes:
   redis-data:
-
+  auth_db_data:
 
 networks:
   default:

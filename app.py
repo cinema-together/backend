@@ -1,9 +1,9 @@
 import aioredis
-from fastapi import Depends, FastAPI
+from fastapi import FastAPI
 from fastapi.responses import ORJSONResponse
 
+from api.v1 import room
 from db import redis
-from settings import BaseSettings, get_settings
 
 app = FastAPI(
     title='API «Кино вместе»',
@@ -18,8 +18,7 @@ app = FastAPI(
 @app.on_event('startup')
 async def startup():
     """Запускается при старте приложения."""
-    current_settings = get_settings()
-    redis.redis = aioredis.from_url(current_settings.redis_dsn, encoding='utf8', decode_responses=True)
+    redis.redis = await aioredis.create_redis_pool(('localhost', 6379), minsize=10, maxsize=20)
 
 
 @app.on_event('shutdown')
@@ -28,10 +27,4 @@ async def shutdown():
     await redis.redis.close()
 
 
-@app.get('/health')
-def health(current_settings: BaseSettings = Depends(get_settings)):
-    """Эндпоинт проверки работоспособности сервиса."""
-    return {
-        'environment': current_settings.environment,
-        'testing': current_settings.testing,
-    }
+app.include_router(room.router, prefix='/api/v1/room', tags=['room'])

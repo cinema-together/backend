@@ -1,11 +1,12 @@
 from functools import lru_cache
+from typing import Optional
 
 from aioredis import Redis
 
-redis: Redis = None
+redis: Optional[Redis] = None
 
 
 @lru_cache()
-async def get_redis() -> Redis:
+def get_redis() -> Redis:
     """Возвращает redis."""
     return redis
