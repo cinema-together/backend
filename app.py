@@ -2,6 +2,7 @@ import aioredis
 from fastapi import Depends, FastAPI
 from fastapi.responses import ORJSONResponse
 
+from api.v1.urls import api_router
 from db import redis
 from settings import BaseSettings, get_settings
 
@@ -35,3 +36,6 @@ def health(current_settings: BaseSettings = Depends(get_settings)):
         'environment': current_settings.environment,
         'testing': current_settings.testing,
     }
+
+
+app.include_router(api_router)
