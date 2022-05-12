@@ -1,13 +1,12 @@
-import os
-
 import pytest
 from starlette.testclient import TestClient
 
 import app
-from settings import get_settings, BaseSettings
+from settings import BaseSettings, get_settings
 
 
 def get_settings_override():
+    """Переписывает настройки приложения для тестирования."""
     return BaseSettings(testing=True)
 
 

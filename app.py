@@ -2,6 +2,7 @@ import aioredis
 from fastapi import FastAPI
 from fastapi.responses import ORJSONResponse
 
+from api.v1.urls import api_router
 from api.v1 import room
 from db import redis
 
@@ -28,3 +29,6 @@ async def shutdown():
 
 
 app.include_router(room.router, prefix='/api/v1/room', tags=['room'])
+
+
+app.include_router(api_router)
