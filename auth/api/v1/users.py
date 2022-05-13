@@ -1,18 +1,18 @@
 from http import HTTPStatus
 
+from db.db_models import DefaultRoles
 from email_validator import EmailNotValidError
 from flask import make_response, jsonify
 from flask_jwt_extended import jwt_required, get_jwt, current_user
 from flask_restplus import Resource, abort
+from services.token import TokenService
+from services.user import UserService
 from sqlalchemy.exc import IntegrityError
 from werkzeug.security import generate_password_hash
 
 from api.v1 import namespace
 from db import db
-from db.db_models import DefaultRoles
 from services.auth import AuthService
-from services.token import TokenService
-from services.user import UserService
 from utlis.validators import email_validator
 from .parsers import register_parser, login_parser, change_password_parser
 

@@ -1,11 +1,11 @@
 from typing import Optional
 from uuid import uuid4
 
+from db.datastore import user_datastore
+from db.db_models import User, DefaultRoles
 from werkzeug.security import generate_password_hash
 
 from db import db_session
-from db.datastore import user_datastore
-from db.db_models import User, DefaultRoles
 
 
 class UserService:

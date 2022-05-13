@@ -12,9 +12,10 @@ class RoomService:
 
     def __init__(self, storage: Redis):
         self.storage = storage
+        self.ROOM_LIVE_TIME = 3600  # 6h
 
     async def create_or_update_room(self, room_id: str, data: dict) -> None:
-        await self.storage.set(room_id, dumps(data))
+        await self.storage.set(room_id, dumps(data), expire=self.ROOM_LIVE_TIME)
 
     async def del_room(self, room_id: str) -> None:
         await self.storage.delete(room_id)

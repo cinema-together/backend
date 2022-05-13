@@ -13,4 +13,3 @@ change_password_parser = namespace.parser()
 change_password_parser.add_argument('current_password', type=str, required=True, help='Wrong Password',
                                     location="form")
 change_password_parser.add_argument('new_password', type=str, required=True, help='Wrong Password', location="form")
-

@@ -1,19 +1,21 @@
 import sentry_sdk
 import uvicorn
 from sentry_sdk.integrations.asgi import SentryAsgiMiddleware
+from starlette.middleware.authentication import AuthenticationMiddleware
 from starlette.middleware.sessions import SessionMiddleware
 
 from app import app
+from middleware.auth import CustomAuthBackend
 from settings import get_settings
 
 current_settings = get_settings()
 
 app.add_middleware(SessionMiddleware, secret_key=current_settings.auth0_client_secret)
+app.add_middleware(AuthenticationMiddleware, backend=CustomAuthBackend())
 
 if current_settings.environment == 'production':
     sentry_sdk.init(dsn=current_settings.sentry_dsn)
     app = SentryAsgiMiddleware(app)
-
 
 if __name__ == '__main__':
     uvicorn.run(

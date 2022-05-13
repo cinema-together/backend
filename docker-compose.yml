@@ -39,8 +39,6 @@ services:
     depends_on:
       - redis_auth
       - auth_db
-    ports:
-      - "5001:5000"
 
   auth_db:
     image: postgres:12.4
@@ -49,8 +47,6 @@ services:
       - ./auth/.env
     volumes:
       - auth_db_data:/var/lib/postgresql/data/
-    ports:
-      - "5439:5432"
 
   redis_auth:
     image: redis
@@ -58,8 +54,6 @@ services:
       - redis-server
     env_file:
       - ./auth/.env
-    ports:
-      - "6380:6379"
 
 
 volumes:

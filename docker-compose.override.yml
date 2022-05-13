@@ -12,3 +12,16 @@ services:
   redis:
     ports:
       - "6379:6379"
+
+  auth_service:
+    ports:
+      - "5001:5000"
+
+  auth_db:
+    ports:
+      - "5439:5432"
+
+  redis_auth:
+    ports:
+      - "6380:6379"
+

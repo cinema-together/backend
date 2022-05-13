@@ -89,4 +89,3 @@ class Role(db.Model, RoleMixin, TimeStampModel):
     def get_all_roles():
         roles = Role.query.all()
         return roles
-
